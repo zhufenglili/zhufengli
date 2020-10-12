@@ -1,34 +1,59 @@
 import requests
-class Tagname:
+
+from test_po.api.wework import Wework
+
+
+class Tagname(Wework):
     '''业务'''
-    def creat_tagname(self,token,tagid):
+
+    def creat_tagname(self, tagid):
         ''''创建标签'''
-        url = f"https://qyapi.weixin.qq.com/cgi-bin/tag/create?access_token={token}"
+
         data = {
 
             "tagname": "第一个标签",
             "tagid": tagid
 
         }
-        r = requests.post(url=url, json=data)
+        red = {
+            "method": "post",
+            "url": f"https://qyapi.weixin.qq.com/cgi-bin/tag/create?access_token={self.token}",
+            "json": data
+        }
+        r = self.send_requests(red)
         return r.json()
-    def updat_tagname(self,token,tagid):
+
+    def updat_tagname(self, tagid):
         '''更新标签'''
-        url = f"https://qyapi.weixin.qq.com/cgi-bin/tag/update?access_token={token}"
         data = {
             "tagid": tagid,
             "tagname": "更改标签"
         }
-        r = requests.post(url=url, json=data)
+        red = {
+            "method": "post",
+            "url": f"https://qyapi.weixin.qq.com/cgi-bin/tag/update?access_token={self.token}",
+            "json": data
+        }
+
+        r = self.send_requests(red)
         return r.json()
-    def del_tagname(self,token,tagid):
+
+    def del_tagname(self, tagid):
         '''删除接口'''
 
-        url = f"https://qyapi.weixin.qq.com/cgi-bin/tag/delete?access_token={token}&tagid={tagid}"
-        r = requests.get(url=url)
+        red = {
+            "method": "post",
+            "url": f"https://qyapi.weixin.qq.com/cgi-bin/tag/delete?access_token={self.token}&tagid={tagid}"
+        }
+        r = self.send_requests(red)
         return r.json()
-    def list_tagname(self,token):
+
+    def list_tagname(self):
         '''列表'''
-        list = f"https://qyapi.weixin.qq.com/cgi-bin/tag/list?access_token={token}"
-        r_list = requests.get(url=list)
+
+        red= {
+            "method": "get",
+            "url": f"https://qyapi.weixin.qq.com/cgi-bin/tag/list?access_token={self.token}"
+        }
+        r_list = self.send_requests(red)
         return r_list.json()
